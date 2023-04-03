@@ -11,10 +11,11 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-// Task - Create Graphic Redactor immitating Paint Application
-// Added:
-// - Pencil size/smoothness configuration
-// - Bitmap for saving / clearing picture
+// Task - Create Graphic Editor immitating Paint Application
+// Contains:
+// - Pencil with color palette and size/smoothness configuration
+// - Filling space with color
+// - Saving / loading / clearing pictures
 
 namespace GraphicRedactor
 {
@@ -201,7 +202,7 @@ namespace GraphicRedactor
             pencil.Width = sizeTrackBar.Value;
         }
 
-        // Eraser
+        // Eraser (adjusts to background color)
         private void EraseBtnClick(object sender, EventArgs e)
         {
             pencil.Color = pictureBox.BackColor;
