@@ -29,11 +29,12 @@ namespace GraphicRedactor
         private Point start;
         private Point end;
 
-        Graphics graphics;
-        Pen pencil;
-        Bitmap bitmap = new Bitmap(200, 200);
+        private Graphics graphics = null;
+        private Pen pencil = null;
+        private Bitmap bitmap = new Bitmap(200, 200);
 
-        bool isMoving = false;
+        private bool isMoving = false;
+        private int index;
 
         public Form1()
         {
@@ -106,12 +107,15 @@ namespace GraphicRedactor
         // Drawing methods:
         private void PicturePanelMouseDown(object sender, MouseEventArgs e)
         {
-            isMoving = true;
             start = e.Location;
+            isMoving = true;
         }
 
         private void PicturePanelMouseUp(object sender, MouseEventArgs e)
         {
+            // fixed: figures not appearing
+            pictureBox.Image = bitmap;
+            
             isMoving = false;
             end = e.Location;
 
@@ -209,13 +213,21 @@ namespace GraphicRedactor
         }
 
         // Fill space with color
+        // fixed: you can now point what you want to fill with color / no crashing
+        private void PictureBoxMouseClick(object sender, MouseEventArgs e)
+        {
+            pictureBox.Image = bitmap;
+            var currentColor = chosenPictureBox.BackColor;
+
+            if (index == 1)
+            {
+                Point point = SetPoint(pictureBox, e.Location);
+                FillSpaceWithColor(bitmap, start.X, start.Y, currentColor);
+            }
+        }
         private void FillBtnMouseClick(object sender, MouseEventArgs e)
         {
-            var currentColor = chosenPictureBox.BackColor;
-            pictureBox.Image = bitmap;
-
-            Point point = SetPoint(pictureBox, e.Location);
-            FillWithColor(bitmap, point.X, point.Y, currentColor);
+            index = 1;
         }
 
         // Print shapes
